@@ -1,3 +1,4 @@
+
 name: Build SEBY RUNNER APK
 
 on:
@@ -32,13 +33,16 @@ jobs:
       - name: Install Capacitor
         run: |
           npm init -y
-          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
+          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7 @capacitor/assets sharp
 
       - name: Prepare game files
         run: |
-          mkdir -p www
+          mkdir -p www assets
           cp index.html style.css games.js manifest.json service-worker.js www/
-          if [ -f icon-512.png ]; then cp icon-512.png www/; fi
+          test -f logoass/icon-512.png
+          cp logoass/icon-512.png assets/icon.png
+          cp logoass/icon-512.png www/icon-512.png
+          if [ -f icon-192.png ]; then cp icon-192.png www/; fi
 
       - name: Configure Android app
         run: |
@@ -53,6 +57,10 @@ jobs:
       - name: Create Android project
         run: |
           npx cap add android
+
+      - name: Generate Android icons
+        run: |
+          npx capacitor-assets generate --android
           npx cap sync android
 
       - name: Build APK
