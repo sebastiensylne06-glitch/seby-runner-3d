@@ -1,4 +1,3 @@
-
 name: Build SEBY RUNNER APK
 
 on:
@@ -55,6 +54,17 @@ jobs:
         run: |
           npx cap add android
           npx cap sync android
+
+      - name: Prepare icon source
+        run: |
+          mkdir -p assets
+          sudo apt-get install -y imagemagick
+          convert icon-192.png -resize 1024x1024 assets/icon-only.png
+
+      - name: Generate app icons
+        run: |
+          npm install @capacitor/assets
+          npx capacitor-assets generate --android
 
       - name: Build APK
         run: |
