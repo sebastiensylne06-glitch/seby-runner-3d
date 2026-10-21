@@ -39,9 +39,9 @@ jobs:
         run: |
           mkdir -p www assets
           cp index.html style.css games.js manifest.json service-worker.js www/
-          test -f logoass/icon-512.png
-          cp logoass/icon-512.png assets/icon.png
-          cp logoass/icon-512.png www/icon-512.png
+          test -f icon-512.png
+          cp icon-512.png assets/icon.png
+          cp icon-512.png www/icon-512.png
           if [ -f icon-192.png ]; then cp icon-192.png www/; fi
 
       - name: Configure Android app
