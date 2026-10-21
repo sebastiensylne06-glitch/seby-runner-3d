@@ -1,8 +1,4 @@
-      - name: Prepare game files
-        run: |
-          mkdir -p www
-          cp index.html style.css games.js manifest.json service-worker.js www/
-          cp icon-512.png www/icon-512.png
+
 import * as THREE from "three";
 
 const $ = id => document.getElementById(id);
