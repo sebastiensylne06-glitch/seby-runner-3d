@@ -1,69 +1,27 @@
-name: Build SEBY RUNNER APK
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-      - master
-
-permissions:
-  contents: read
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Get project files
-        uses: actions/checkout@v4
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "21"
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: Install Capacitor
-        run: |
-          npm init -y
-          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
-
-      - name: Prepare game files
-        run: |
-          mkdir -p www
-          cp index.html style.css games.js manifest.json service-worker.js www/
-          if [ -f icon-192.png ]; then cp icon-192.png www/; fi
-
-      - name: Configure Android app
-        run: |
-          cat > capacitor.config.json <<'EOF'
-          {
-            "appId": "com.seby.runner",
-            "appName": "SEBY RUNNER",
-            "webDir": "www"
-          }
-          EOF
-
-      - name: Create Android project
-        run: |
-          npx cap add android
-          npx cap sync android
-
-      - name: Build APK
-        run: |
-          cd android
-          chmod +x gradlew
-          ./gradlew assembleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: SEBY-RUNNER-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
+{
+  "id": "/",
+  "name": "SEBY RUNNER",
+  "short_name": "SEBY RUNNER",
+  "description": "SEBY RUNNER - Aplikasyon ou pou kouri sou entènèt.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#101010",
+  "theme_color": "#101010",
+  "icons": [
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
